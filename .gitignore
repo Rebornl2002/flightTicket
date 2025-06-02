@@ -1,0 +1,88 @@
+# ============================
+# 1. Thư mục và file phụ thuộc (dependency)
+# ============================
+
+# Node modules (backend & frontend)
+node_modules/
+
+# Nếu project frontend React nằm trong một subfolder, ví dụ /client/node_modules/
+# client/node_modules/
+
+# ============================
+# 2. Build artifacts
+# ============================
+
+# React build
+/build/
+/dist/
+
+# Nếu dùng Next.js (cũng là React), thêm
+/.next/
+
+# Nếu dùng Vite (React), thêm
+/dist/
+
+# Backend build (TypeScript → JS, Babel, v.v.)
+/dist/
+/lib/
+
+# ============================
+# 3. Cấu hình môi trường
+# ============================
+.env
+.env.local
+.env.*.local
+
+# Ví dụ file config định nghĩa môi trường, không push
+.env.development
+.env.production
+
+# Bạn có thể giữ file mẫu .env.example
+# .env.example
+
+# ============================
+# 4. IDE / Hệ điều hành
+# ============================
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# IDE/editor settings (tùy nhóm)
+.vscode/
+.idea/
+
+# ============================
+# 5. File tạm, log, cache
+# ============================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Log application (nếu tạo thư mục logs/)
+logs/
+
+# Cache của tooling
+.cache/
+*.cache
+
+# Nếu dùng ESLint, Prettier, v.v. có file cache
+.eslintcache
+.prettiercache
+
+# ============================
+# 6. Các file nhạy cảm hoặc cá nhân khác
+# ============================
+# Certificate, key file (HTTPS)
+*.pem
+*.key
+
+# SSH keys (nếu có)
+*.pub
+*.private
+
+# Private config
+/local.env

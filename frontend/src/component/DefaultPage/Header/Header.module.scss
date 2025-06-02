@@ -1,0 +1,66 @@
+.brcl-pr {
+    width: 100%;
+    background-color: var(--primary);
+}
+
+.wrapper {
+    --header-height: 50px;
+    --primary: #4469b0;
+
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    height: var(--header-height);
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 73.6px;
+    height: 40px;
+}
+
+.header-text {
+    color: var(--primary);
+    font-size: 14px;
+    line-height: var(--header-height);
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+.hotline {
+    font-size: 16px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.space {
+    display: inline-block;
+    width: 20px;
+}
+
+//Navbar
+
+.navbar {
+    display: flex;
+    list-style: none;
+}
+
+.navbar-item {
+    font-size: 16px;
+    padding: 5px 15px 6px;
+}

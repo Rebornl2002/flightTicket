@@ -1,0 +1,59 @@
+.quantity {
+    position: absolute;
+    color: #302c2d;
+    border-radius: 100%;
+    font-size: 10.5px;
+    top: 17px;
+    right: 285px;
+    height: 13px;
+    width: 13px;
+    display: flex;
+    background-color: red;
+    align-items: center;
+    justify-content: center;
+}
+
+.notify {
+    position: absolute;
+    background: #fff;
+    top: 50px;
+    right: 33px;
+    color: #000;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 5px 15px;
+    border-radius: 5px;
+    padding: 5px;
+    width: 300px; /* Set your desired width */
+    height: 106px;
+
+    overflow-y: auto;
+    white-space: pre-wrap;
+    line-height: 1.5em;
+    max-height: 6em; /* Set the maximum height to display 4 lines */
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+    &::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        right: 264px;
+        transform: translateX(50%);
+        border: solid transparent;
+        border-width: 8px;
+        border-bottom-color: #fff;
+    }
+}

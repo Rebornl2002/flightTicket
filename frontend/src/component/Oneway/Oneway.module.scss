@@ -1,0 +1,19 @@
+.depart {
+  background-color: #4469b0;
+  width: 85%;
+}
+.roundtrip {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.return {
+  width: 15%;
+}
+.return_0 {
+  display: none;
+}
+.add_roundtrip {
+  width: 80%;
+}

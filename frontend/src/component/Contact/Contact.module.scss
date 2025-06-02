@@ -1,0 +1,43 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.img-map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1200px;
+}
+
+.img-link {
+  display: block;
+  height: 50%;
+  width: 90%;
+}
+
+.img {
+  height: 100%;
+  width: 100%;
+}
+
+.information {
+  width: 1200px;
+  margin-top: 30px;
+}
+
+.information-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.information-titles {
+  color: #333;
+}
+
+.information-item {
+  list-style: none;
+}

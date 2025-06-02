@@ -1,0 +1,117 @@
+.contain {
+    border-radius: 5px;
+    // border: 1px solid #000;
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1rem;
+    padding-top: 30px;
+}
+.title {
+    text-align: center;
+    padding-bottom: 14px;
+    font-size: 2rem;
+    border-bottom: 1px solid rgb(68, 58, 58);
+}
+.wrapper {
+    border-bottom: 1px solid rgb(68, 58, 58);
+    padding-bottom: 12px;
+    padding-top: 6px;
+    text-align: center;
+}
+
+.name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding-left: 10px;
+    text-transform: uppercase;
+}
+.code_ticket {
+    font-size: 1.2rem;
+    color: rgb(62, 62, 230);
+}
+.date_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.date {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+.icon {
+    font-size: 1.6rem;
+    margin-right: 2px;
+}
+.notify {
+    color: rgb(187, 162, 162);
+}
+
+.table {
+    padding: 20px 0;
+    display: flex;
+}
+.company {
+    background-color: #ecedee;
+    width: 40%;
+    padding: 20px;
+}
+.company_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.image {
+    width: 200px;
+    height: 100px;
+}
+.trip {
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding-top: 5px;
+    margin-top: 36px;
+}
+.info {
+    padding-top: 15px;
+    padding-bottom: 36px;
+}
+.info_flight {
+    flex: 1;
+    border: 1px solid rgb(158, 145, 145);
+}
+.info_flight_header {
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgb(158, 145, 145);
+    height: 40%;
+    position: relative;
+    font-weight: 600;
+}
+.info_flight_body {
+    display: flex;
+    height: 60%;
+}
+.icon_play {
+    position: absolute;
+    right: 48%;
+}
+.depart,
+.return {
+    width: 50%;
+    padding: 16px;
+}
+.return {
+    border-left: 1px solid rgb(158, 145, 145);
+}
+.line {
+    height: 100%;
+    border: 1px solid rgb(158, 145, 145);
+}
+.time {
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+.line {
+    height: 1px;
+    width: 50%;
+    margin: auto;
+}

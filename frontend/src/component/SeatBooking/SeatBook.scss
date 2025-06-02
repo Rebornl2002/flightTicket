@@ -1,0 +1,147 @@
+.contain_0 {
+    //   height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.depart {
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    margin-bottom: 18px;
+
+    & + .return {
+        margin-bottom: 50px;
+    }
+}
+.title_0 {
+    width: 100%;
+    text-align: left;
+    padding-left: 30px;
+    padding-top: 30px;
+}
+
+.body_0 {
+    height: 200px;
+    width: 290px;
+    position: absolute;
+    top: 332px;
+    left: 248px;
+    display: flex;
+    flex-direction: column;
+}
+.info_0 {
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    width: 100%;
+    font-size: 1.6rem;
+}
+.type_0 {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+.booked {
+    background: rgb(93, 190, 93);
+}
+.no_booked {
+    background: rgb(236, 61, 61);
+}
+.no_booked,
+.booked {
+    height: 32px;
+    width: 40px;
+    padding: 0;
+    border-radius: 10px;
+    border: none;
+}
+.button_seat {
+    width: 50%;
+    display: flex;
+    height: 32px;
+    justify-content: space-evenly;
+}
+.row_0 {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+button + button {
+    margin-left: 2px;
+}
+
+.disable {
+    background-color: transparent;
+    position: relative;
+    cursor: not-allowed !important;
+    border-radius: 10px;
+    width: 40px;
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 111%;
+        height: 2px;
+        background-color: rgb(155, 112, 112);
+        transform-origin: center;
+    }
+
+    &::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+}
+
+.seat-book-image {
+    width: 400px;
+    height: auto;
+    margin-left: 200px;
+}
+.wrapper_0 {
+    height: 254px;
+    width: 290px;
+    position: absolute;
+    top: 24px;
+    left: 248px;
+}
+.image-container {
+    position: relative;
+}
+.instruction {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    position: absolute;
+    width: 350px;
+    top: 150px;
+    left: 190px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-left: 12px;
+    background-color: #ebebeb;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 5px 15px;
+    color: rgb(85, 43, 112);
+    font-size: 1.4rem;
+}
+.return {
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    position: relative;
+}
+.final_book {
+    margin-left: 200px;
+}

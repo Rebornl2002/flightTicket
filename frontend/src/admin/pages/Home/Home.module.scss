@@ -1,0 +1,73 @@
+.one {
+    // background-color: #ccc;
+    height: 100vh;
+    padding-left: 10px;
+}
+.title {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gradient_imcompleted,
+.gradient_completed,
+.gradient_revenue {
+    border-radius: 10px !important;
+}
+.gradient_imcompleted {
+    margin-bottom: 20px;
+    background: #2193b0; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        #6dd5ed,
+        #2193b0
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.gradient_completed {
+    margin-bottom: 20px;
+    background: #6441a5; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2a0845, #6441a5); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        #2a0845,
+        #6441a5
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.gradient_revenue {
+    margin-bottom: 20px;
+    background: #16222a; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #3a6073, #16222a); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        #3a6073,
+        #16222a
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    // background: rgb(53, 138, 148);
+    // background: linear-gradient(158deg, rgba(53, 138, 148, 1) 0%, rgba(91, 180, 96, 1) 100%);
+}
+.icon {
+    text-align: right;
+    font-size: 2rem;
+}
+.quantity {
+    font-size: 1.8rem !important;
+    color: white !important;
+    justify-content: center;
+}
+.decrease {
+    background: rgb(25, 230, 25);
+    border-radius: 100px;
+    font-size: 0.8rem !important;
+    margin-left: 12px;
+}
+.increase {
+    background: rgb(233, 24, 24);
+    border-radius: 100px;
+    font-size: 0.8rem !important;
+    margin-left: 12px;
+}

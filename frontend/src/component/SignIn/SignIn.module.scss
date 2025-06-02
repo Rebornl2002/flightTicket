@@ -1,0 +1,82 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url(https://nhadepso.com/wp-content/uploads/2023/02/anh-may-bay-dep_1.jpg);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    min-width: 30%;
+    padding: 10px;
+    margin: 0 28px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    user-select: none;
+}
+
+.input-login {
+    position: relative;
+}
+
+.icon {
+    position: absolute;
+    top: 12px;
+    left: 10px;
+}
+
+.input {
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    height: 40px;
+    padding-left: 40px;
+    border-radius: 5px;
+}
+
+.button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+.login-btn {
+    outline: none;
+    border: none;
+    height: 40px;
+    border-radius: 99px;
+    width: 80%;
+    color: #fff;
+    background-color: #ffa801;
+
+    &:hover {
+        background-color: #ff9901;
+    }
+}
+
+.error-message {
+    color: transparent;
+    margin: 4px 0 0 2px;
+}
+
+.error-login {
+    text-align: center;
+    color: #fff;
+    padding-bottom: 20px;
+}

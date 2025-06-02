@@ -1,0 +1,105 @@
+.wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+.info {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-direction: row;
+}
+
+.line {
+    background-color: red;
+    width: 60px;
+    height: 2px;
+    margin: 0 10px;
+}
+
+.time {
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+.duration {
+    position: absolute;
+    top: -5px;
+    right: 78px;
+}
+.name {
+    text-align: center;
+}
+
+//hidden arrows/spinners in input
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type='number'] {
+    width: 30px;
+    text-align: center;
+    border: none;
+}
+
+.type_flight,
+.traveller {
+    display: flex;
+    flex-direction: column;
+}
+.container_3 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.money {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.total {
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 82px;
+    width: 120px;
+    border-left: 1px solid rgb(158, 142, 142);
+    border-right: 1px solid rgb(158, 142, 142);
+}
+.total_1 {
+    margin: 0;
+    text-decoration: underline;
+}
+.total_2 {
+    color: orange;
+}
+.select {
+    background-color: #05203c;
+}
+
+.btn-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 15px;
+}
+
+.title-seat {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.image {
+    height: 60px;
+    width: 60px;
+    padding-left: 20px;
+}

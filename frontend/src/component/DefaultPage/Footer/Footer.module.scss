@@ -1,0 +1,57 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  margin-top: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.info-content {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.infor-title {
+  margin-left: 10px;
+}
+
+.nec-infor-list {
+  list-style: none;
+}
+
+.nec-infor-item {
+  margin-top: 10px;
+}
+
+.nec-infor-link {
+  padding-left: 10px;
+  text-decoration: none;
+  color: #fff;
+
+  &:hover {
+    color: aqua;
+  }
+}
+
+.network-item {
+  display: inline-block;
+  color: #fff;
+}
+
+.network-link {
+  margin-right: 10px;
+}
+
+.networkk-img {
+  width: 30px;
+  height: 30px;
+  background-color: #000;
+}

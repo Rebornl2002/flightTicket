@@ -1,0 +1,20 @@
+.wrapper {
+    background: rgb(53, 138, 148);
+    background: linear-gradient(158deg, rgba(53, 138, 148, 1) 0%, rgba(91, 180, 96, 1) 100%);
+    border-radius: 10px;
+}
+
+.image {
+    width: 100%;
+    border-radius: 10px;
+}
+.calendar {
+    width: 100% !important;
+}
+.title {
+    padding: 16px 20px;
+
+    &.css-1q04gal-MuiDateCalendar-root {
+        width: 100%;
+    }
+}
