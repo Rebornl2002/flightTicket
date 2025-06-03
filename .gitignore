@@ -15,6 +15,7 @@ node_modules/
 # React build
 /build/
 /dist/
+/backend/gemini-api-key
 
 # Nếu dùng Next.js (cũng là React), thêm
 /.next/
