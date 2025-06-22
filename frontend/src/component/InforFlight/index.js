@@ -195,9 +195,9 @@ function InforFlight({ item, name, select, connect, onPriceCalculated, onSelecte
     const storedQuantity = JSON.parse(localStorage.getItem('Quantity'));
 
     // const [show, setShow] = useState(true);
-    const value1 = Number(storedQuantity.adults);
-    const value2 = Number(storedQuantity.children);
-    const value3 = Number(storedQuantity.baby);
+    const value1 = Number(storedQuantity?.adults);
+    const value2 = Number(storedQuantity?.children);
+    const value3 = Number(storedQuantity?.baby);
     const moneyBaby = moneyAdult / 2;
     const moneyChildren = moneyAdult * 0.75;
     const [total, setTotal] = useState(moneyAdult);
@@ -366,7 +366,12 @@ function InforFlight({ item, name, select, connect, onPriceCalculated, onSelecte
                                         <input type="number" value={value1} readOnly />
                                     </span>
 
-                                    {!!value1 && <span className="money"> {moneyAdult * value1}</span>}
+                                    {!!value1 && (
+                                        <span className="money">
+                                            {' '}
+                                            {(moneyAdult * value1).toLocaleString('vi-VN')} đ
+                                        </span>
+                                    )}
                                 </span>
                                 <span className="me-4 traveller">
                                     <span>
@@ -374,7 +379,12 @@ function InforFlight({ item, name, select, connect, onPriceCalculated, onSelecte
                                         <input type="number" value={value2} readOnly />
                                     </span>
 
-                                    {!!value2 && <span className="money"> {moneyChildren * value2}</span>}
+                                    {!!value2 && (
+                                        <span className="money">
+                                            {' '}
+                                            {(moneyChildren * value2).toLocaleString('vi-VN')} đ
+                                        </span>
+                                    )}
                                 </span>
                                 <span className="traveller">
                                     <span>
@@ -382,7 +392,9 @@ function InforFlight({ item, name, select, connect, onPriceCalculated, onSelecte
                                         <input type="number" value={value3} readOnly />
                                     </span>
 
-                                    {!!value3 && <span className="money"> {moneyBaby * value3}</span>}
+                                    {!!value3 && (
+                                        <span className="money"> {(moneyBaby * value3).toLocaleString('vi-VN')} đ</span>
+                                    )}
                                 </span>
 
                                 {!select && (
@@ -424,7 +436,9 @@ function InforFlight({ item, name, select, connect, onPriceCalculated, onSelecte
                                 <input type="number" value={value1} readOnly />
                             </span>
 
-                            {!!value1 && <span className="money"> {moneyAdult * value1}</span>}
+                            {!!value1 && (
+                                <span className="money"> {(moneyAdult * value1).toLocaleString('vi-VN')} đ</span>
+                            )}
                         </span>
                         <span className="me-4 traveller">
                             <span>
@@ -432,7 +446,9 @@ function InforFlight({ item, name, select, connect, onPriceCalculated, onSelecte
                                 <input type="number" value={value2} readOnly />
                             </span>
 
-                            {!!value2 && <span className="money"> {moneyChildren * value2}</span>}
+                            {!!value2 && (
+                                <span className="money"> {(moneyChildren * value2).toLocaleString('vi-VN')} đ</span>
+                            )}
                         </span>
                         <span className="traveller">
                             <span>
@@ -440,11 +456,13 @@ function InforFlight({ item, name, select, connect, onPriceCalculated, onSelecte
                                 <input type="number" value={value3} readOnly />
                             </span>
 
-                            {!!value3 && <span className="money"> {moneyBaby * value3}</span>}
+                            {!!value3 && (
+                                <span className="money"> {(moneyBaby * value3).toLocaleString('vi-VN')} đ</span>
+                            )}
                         </span>
                         <span className="total ms-3">
                             <h5 className="total_1">Tổng tiền</h5>
-                            <div className="total_2">{total}</div>
+                            <div className="total_2">{total.toLocaleString('vi-VN')} đ</div>
                         </span>
 
                         {!select && (

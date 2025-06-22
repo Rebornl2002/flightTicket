@@ -48,7 +48,6 @@ function SignIn() {
                     console.log('hong roi');
                     window.location = 'http://localhost:3000/admin/adminUsers';
                 } else {
-                    console.log('ao the nhi');
                     window.location = 'http://localhost:3000/admin';
                 }
 
@@ -86,7 +85,7 @@ function SignIn() {
                     <FontAwesomeIcon className={cx('icon')} icon={faLock} />
                     <input
                         value={password}
-                        type="text"
+                        type="password"
                         id="Password"
                         placeholder="Mật khẩu"
                         className={cx('input')}

@@ -15,7 +15,7 @@ import SearchRequest from '../SearchRequest';
 import NotFoundFlight from '../NotFoundFlight';
 import ToastCustom from '../../Toast';
 import { toast } from 'react-toastify';
-import ChatBot from '../ChatBot/ChatBot.js';
+import ChatWidget from '../ChatBot/ChatWidget.js';
 
 const cx = classNames.bind(styles);
 
@@ -557,7 +557,8 @@ function Search() {
             <ToastCustom />
 
             {!show && <Content airF={setAirportFrom} airT={setAirportTo} dp={setDepart} checkDate={handleCheckDate} />}
-            <ChatBot />
+
+            {!show && <ChatWidget />}
 
             <Footer />
         </div>

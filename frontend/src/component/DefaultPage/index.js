@@ -10,13 +10,41 @@ import InforFlightRoundTrip from '../InforFlightRoundTrip';
 import NotFoundFlight from '../NotFoundFlight';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp, faPlaneCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import HandlePlace from '../HandlePlace';
 import Button from 'react-bootstrap/Button';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
+
+const transtAirport = (index) => {
+    const data = {
+        HAN: 'Hà Nội ',
+        HPH: 'Hải Phòng ',
+        DIN: 'Điện Biên ',
+        THD: 'Thanh Hóa ',
+        VDO: 'Quảng Ninh ',
+        VII: 'Vinh ',
+        HUI: 'Huế ',
+        VDH: 'Đồng Nai ',
+        DAD: 'Đà Nẵng ',
+        PXU: 'Pleiku ',
+        TBB: 'Tuy Hòa ',
+        SGN: 'Hồ Chí Minh ',
+        CXR: 'Nha Trang ',
+        DLI: 'Đà Lạt ',
+        PQC: 'Phú Quốc ',
+        VCL: 'Tam Kỳ ',
+        UIH: 'Qui Nhơn ',
+        VCA: 'Cần Thơ ',
+        VCS: 'Côn Đảo ',
+        BMV: 'Ban Mê Thuật ',
+        VKG: 'Rạch Giá ',
+        CAH: 'Cà Mau ',
+    };
+    return data[index];
+};
 
 export function DefaultPage1({ data, handleConvert, handleSwitchPage, switchPage }) {
     if (data[0]) {
@@ -367,10 +395,22 @@ export function DefaultPage2({ data, typeTrip, onData, AirportFrom, AirportTo, d
                         connectFlight.map((item, idx) => {
                             const rec = pricesMap[idx] || {};
                             const total = (rec.p1 || 0) + (rec.p2 || 0);
+                            console.log(item);
 
                             return (
                                 <div key={idx}>
                                     <hr class="my-4"></hr>
+                                    <div className="d-flex align-items-center mb-3 px-3">
+                                        <FontAwesomeIcon icon={faPlaneCircleCheck} className="me-2 text-primary" />
+                                        <h5 className="mb-0 text-primary">
+                                            {transtAirport(item.flight1.AirportFrom)}
+                                            <FontAwesomeIcon icon={faArrowRight} className="mx-2" />
+                                            {transtAirport(item.flight1.AirportTo)}
+                                            <FontAwesomeIcon icon={faArrowRight} className="mx-2" />
+                                            {transtAirport(item.flight2.AirportTo)}
+                                        </h5>
+                                    </div>
+
                                     <div className="d-flex">
                                         <div className="flex-grow-1">
                                             <div className={cx('container')}>

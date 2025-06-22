@@ -60,13 +60,13 @@ export default function AdminUsers() {
             cellClassName: 'custom-cell',
             flex: 0.2,
         },
-        {
-            field: 'Password',
-            headerName: 'Mật khẩu',
-            headerClassName: 'custom-header',
-            cellClassName: 'custom-cell',
-            flex: 0.1,
-        },
+        // {
+        //     field: 'Password',
+        //     headerName: 'Mật khẩu',
+        //     headerClassName: 'custom-header',
+        //     cellClassName: 'custom-cell',
+        //     flex: 0.1,
+        // },
         {
             field: 'Name',
             headerName: 'Họ và tên',

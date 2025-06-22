@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import GetAllData from '../GetAllData';
 import classNames from 'classnames/bind';
@@ -11,8 +10,7 @@ import { faHouse, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import ToastCustom from '../../Toast';
-
-import { fakeApi } from './fakeApi';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -29,6 +27,24 @@ function Paying() {
 
     const storedIsConnectFlight = JSON.parse(localStorage.getItem('isConnectFlight') || '{}')?.state;
     const storedInforSeatConnect = JSON.parse(localStorage.getItem('bookedButtonReturn') || '[]');
+
+    const navigate = useNavigate();
+
+    const onName = (e) => {
+        setName(e.target.value);
+    };
+
+    const onNumberCard = (e) => {
+        setNumberCard(e.target.value);
+    };
+
+    const onExpirationDate = (e) => {
+        setExpirationDate(e.target.value);
+    };
+
+    const onCvv = (e) => {
+        setCvv(e.target.value);
+    };
 
     let dataConnectFlight1 = null;
     let dataConnectFlight2 = null;
@@ -55,6 +71,7 @@ function Paying() {
     const [numberCard, setNumberCard] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
     const [name, setName] = useState('');
+    const [cvv, setCvv] = useState('');
     const [isNumberCard, setIsNumberCard] = useState(false);
     const [user, setUser] = useState([]);
     const [timeoutId, setTimeoutId] = useState(null);
@@ -162,12 +179,14 @@ function Paying() {
                 ID_Card: storedInforPerson.ID_Card,
                 CodeSeat: storedInforSeat.join(' - '),
                 Email: storedInforPerson.Email,
-                TotalMoneyGo: calculateTotalPrice(storedInforFlight.item.PriceAdult),
-                TotalMoney: calculateTotalPrice(storedInforFlight.item.PriceAdult),
+                TotalMoneyGo: calculateTotalPrice(storedInforFlight.moneyAdult),
+                TotalMoney: calculateTotalPrice(storedInforFlight.moneyAdult),
             };
             return data;
         }
     };
+
+    console.log('storedInforFlight', storedInforFlight);
 
     let data00;
     let data01;
@@ -181,28 +200,6 @@ function Paying() {
         }
     } else data00 = valueReturn();
 
-    // const sendInfoData = () => {
-    //     fetch('http://localhost:4000/info', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-
-    //         body: JSON.stringify(data00),
-    //     })
-    //         .then((response) => {
-    //             if (response.ok) {
-    //                 console.log('Data sent successfully');
-    //             } else {
-    //                 console.error('Error sending data:', response.statusText);
-    //                 console.log('thoi s gio loi roi');
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error sending data:', error);
-    //         });
-    // };
-
     const [dataNew, setDataNew] = useState();
     const [dataNew2, setDataNew2] = useState();
 
@@ -210,7 +207,6 @@ function Paying() {
         let response = await fetch(`http://localhost:4000/tickets/${id}`);
         let data1 = await response.json();
         setDataNew(data1.data);
-        console.log(dataNew);
         return data1.data;
     }
 
@@ -287,6 +283,8 @@ function Paying() {
                     CodeSeat: array1,
                 },
             };
+
+            console.log('checkData', dataNew);
 
             const id = storedInforFlight.item._id;
 
@@ -388,6 +386,8 @@ function Paying() {
         const newCode = code + type;
         return newCode;
     };
+
+    console.log('data00', data00);
 
     function handlePustTicketDetail() {
         const totalPeople =
@@ -850,8 +850,10 @@ function Paying() {
         });
     }
 
-    const handlePay = (e) => {
-        if (numberCard !== '' && expirationDate !== '' && name !== '') {
+    const handlePay = async (e) => {
+        const isCardOk = await handleInputNumberCard();
+
+        if (numberCard !== '' && expirationDate !== '' && name !== '' && isCardOk) {
             if (isNumberCard) {
                 setShouldStop(true);
                 setShow(true);
@@ -915,33 +917,43 @@ function Paying() {
         }
     }, [planeCode]);
 
-    const handleInputNumberCard = (e) => {
-        setNumberCard(e.target.value);
-
+    const handleInputNumberCard = async () => {
         const cardNumber = document.querySelector('#card-number');
         const error = document.querySelector('#ip-1');
-        if (!is_creditCard(e.target.value)) {
+
+        if (!numberCard || numberCard.trim() === '') {
+            cardNumber.style.outlineColor = 'red';
+            error.innerText = 'Vui lòng nhập số thẻ';
+            error.style.color = 'red';
+            setIsNumberCard(false);
+            return false;
+        }
+
+        if (!is_creditCard(numberCard)) {
             cardNumber.style.outlineColor = 'red';
             error.innerText = 'Số thẻ không hợp lệ';
             error.style.color = 'red';
-            setName('');
-            setExpirationDate('');
             setIsNumberCard(false);
+            return false;
         } else {
             cardNumber.style.outlineColor = '#4469b0';
             error.innerText = 'Vui lòng nhập số thẻ';
             error.style.color = 'transparent';
-            for (let index = 0; index < fakeApi.length; index++) {
-                if (e.target.value === fakeApi[index].cardNumber) {
-                    setName(fakeApi[index].name);
-                    setExpirationDate(fakeApi[index].exp);
-                    break;
-                } else {
-                    setName('');
-                    setExpirationDate('');
+            try {
+                const res = await axios.post('http://localhost:4000/card/check', {
+                    cardNumber: numberCard,
+                    name: name,
+                    exp: expirationDate,
+                    cvv: cvv,
+                });
+                if (res.statusText === 'OK' && res.data.valid) {
+                    setIsNumberCard(true);
+                    return true;
                 }
+            } catch (err) {
+                console.log('err', err);
+                return false;
             }
-            setIsNumberCard(true);
         }
     };
 
@@ -971,43 +983,40 @@ function Paying() {
         return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     };
 
-    const handleDeleteCodeSeat = () => {
-        if (storedTypeTrip === 'Roundtrip') {
-            const TypeFlight = storedInforFlight.selectedValue;
-            const TypeFlightReturn = inforFlightReturn.selectedValue;
-            axios
-                .put(
-                    `http://localhost:4000/codeSeat/fail/${storedInforFlight.item.FlightNumber}?type=${TypeFlight}&seat=${storedInforSeat}`,
-                )
-                .catch((err) => console.error(err));
-            axios
-                .put(
-                    `http://localhost:4000/codeSeat/fail/${inforFlightReturn.item.FlightNumber}?type=${TypeFlightReturn}&seat=${storedInforSeatReturn}`,
-                )
-                .catch((err) => console.error(err));
-        } else {
-            if (!storedIsConnectFlight) {
+    const handleDeleteCodeSeat = async () => {
+        try {
+            if (storedTypeTrip === 'Roundtrip') {
                 const TypeFlight = storedInforFlight.selectedValue;
+                const TypeFlightReturn = inforFlightReturn.selectedValue;
 
-                axios
-                    .put(
-                        `http://localhost:4000/codeSeat/fail/${storedInforFlight.item.FlightNumber}?type=${TypeFlight}&seat=${storedInforSeat}`,
-                    )
-                    .catch((err) => console.error(err));
+                const urlDepart = `http://localhost:4000/codeSeat/fail/${storedInforFlight.item.FlightNumber}?type=${TypeFlight}&seat=${storedInforSeat}`;
+                const urlReturn = `http://localhost:4000/codeSeat/fail/${inforFlightReturn.item.FlightNumber}?type=${TypeFlightReturn}&seat=${storedInforSeatReturn}`;
+
+                // Gửi song song 2 request, đợi cả 2 hoàn thành
+                await Promise.all([axios.put(urlDepart), axios.put(urlReturn)]);
             } else {
-                const TypeFlight = dataConnectFlight1.selectedValue;
-                const TypeFlightReturn = dataConnectFlight2.selectedValue;
-                axios
-                    .put(
-                        `http://localhost:4000/codeSeat/fail/${dataConnectFlight1.item.FlightNumber}?type=${TypeFlight}&seat=${storedInforSeat}`,
-                    )
-                    .catch((err) => console.error(err));
-                axios
-                    .put(
-                        `http://localhost:4000/codeSeat/fail/${dataConnectFlight2.item.FlightNumber}?type=${TypeFlightReturn}&seat=${storedInforSeatReturn}`,
-                    )
-                    .catch((err) => console.error(err));
+                if (!storedIsConnectFlight) {
+                    // One-way flight (không nối chuyến)
+                    const TypeFlight = storedInforFlight.selectedValue;
+                    const url = `http://localhost:4000/codeSeat/fail/${storedInforFlight.item.FlightNumber}?type=${TypeFlight}&seat=${storedInforSeat}`;
+
+                    await axios.put(url);
+                } else {
+                    // Connect flight (nối chuyến)
+                    const TypeFlight1 = dataConnectFlight1.selectedValue;
+                    const TypeFlight2 = dataConnectFlight2.selectedValue;
+
+                    const urlConnect1 = `http://localhost:4000/codeSeat/fail/${dataConnectFlight1.item.FlightNumber}?type=${TypeFlight1}&seat=${storedInforSeat}`;
+                    const urlConnect2 = `http://localhost:4000/codeSeat/fail/${dataConnectFlight2.item.FlightNumber}?type=${TypeFlight2}&seat=${storedInforSeatReturn}`;
+
+                    await Promise.all([axios.put(urlConnect1), axios.put(urlConnect2)]);
+                }
             }
+
+            navigate('/seatBook');
+        } catch (error) {
+            console.error('Lỗi khi xóa mã ghế:', error);
+            toast.error('Đã xảy ra lỗi. Vui lòng thử lại.');
         }
     };
 
@@ -1033,7 +1042,11 @@ function Paying() {
                     <div className={cx('wrapper')}>
                         <div className={cx('container')}>
                             <div className={cx('header')}>
-                                <img className={cx('logo-img')} alt="logo" src="https://res.flynow.vn/logoflynow.png" />
+                                <img
+                                    className={cx('logo-img')}
+                                    alt="logo"
+                                    src="https://www.flynow.vn/Assets/logo.jpg"
+                                />
                                 <span>Phiên giao dịch sẽ hết hạn sau : {formatTime(countdown)}</span>
                             </div>
                             <div className={cx('content')}>
@@ -1063,37 +1076,63 @@ function Paying() {
                                         value={numberCard}
                                         type="text"
                                         placeholder="Số thẻ"
-                                        onChange={handleInputNumberCard}
+                                        onChange={onNumberCard}
                                     />
                                     <span id="ip-1" className={cx('title-input')}>
                                         Không được bỏ trống trường này
                                     </span>
-                                    <input
-                                        id="date"
-                                        className={cx('input-text')}
-                                        autoComplete="off"
-                                        maxLength="7"
-                                        value={expirationDate}
-                                        inputMode="numeric"
-                                        type="tel"
-                                        placeholder="Ngày hết hạn"
-                                    />
-                                    <span id="ip-2" className={cx('title-input')}>
-                                        Phải nhập ngày tháng (VD: 01/01)
-                                    </span>
+                                    <div
+                                        className="d-flex align-items-center justify-content-between "
+                                        style={{ width: '90%' }}
+                                    >
+                                        <div style={{ flex: 1 }}>
+                                            <input
+                                                id="date"
+                                                className={cx('input-text')}
+                                                autoComplete="off"
+                                                maxLength="7"
+                                                value={expirationDate}
+                                                inputMode="numeric"
+                                                type="tel"
+                                                placeholder="Ngày hết hạn"
+                                                onChange={onExpirationDate}
+                                            />
+                                            <span id="ip-2" className={cx('title-input')}>
+                                                Phải nhập ngày tháng (VD: 01/01)
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <input
+                                                id="cvv"
+                                                className={cx('input-text')}
+                                                autoComplete="off"
+                                                maxLength="7"
+                                                value={cvv}
+                                                onChange={onCvv}
+                                                inputMode="numeric"
+                                                type="tel"
+                                                placeholder="Mã bảo mật"
+                                                style={{ width: '100%' }}
+                                            />
+                                            <span id="ip-4" className={cx('title-input')} style={{ width: '100%' }}>
+                                                Phải nhập CVV (3 chữ số)
+                                            </span>
+                                        </div>
+                                    </div>
                                     <input
                                         id="name"
                                         className={cx('input-text')}
                                         value={name}
                                         placeholder="Họ tên chủ thẻ"
+                                        onChange={onName}
                                     />
                                     <span id="ip-3" className={cx('title-input')}>
                                         Không được bỏ trống
                                     </span>
                                     <div className={cx('submit-btn')}>
-                                        <Link to="/seatBook" className={cx('btn', 'return-btn')}>
+                                        <button className={cx('btn', 'return-btn')}>
                                             <span onClick={handleDeleteCodeSeat}>Trở lại</span>
-                                        </Link>
+                                        </button>
                                         <button className={cx('btn', 'next-btn')} onClick={handlePay}>
                                             Thanh toán
                                         </button>

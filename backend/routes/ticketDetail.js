@@ -13,13 +13,13 @@ const router = express.Router();
 
 router.post('/', createticketDetail);
 
+router.get('/', getAllticketDetail);
+
 router.delete('/:id', deleteticketDetail);
 
 router.get('/:id', getTicketDetailByCodeTicket);
 
 router.get('/search/:id', getTicketDetailBySearchCodeTicket);
-
-router.get('/', getAllticketDetail);
 
 router.get('/flightNumber/:id', getTicketDetailByFlightNumber);
 

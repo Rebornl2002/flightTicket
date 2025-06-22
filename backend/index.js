@@ -10,11 +10,11 @@ import ticketRoute from './routes/ticket.js';
 import userRoute from './routes/user.js';
 import authRoute from './routes/auth.js';
 import infoRoute from './routes/info.js';
-import cancelRoute from './routes/cancel.js';
 import sendEmailRoute from './routes/sendEmail.js';
 import ticketDetailsRoute from './routes/ticketDetail.js';
 import codeSeatRoute from './routes/codeSeat.js';
 import loginRoute from './routes/login.js';
+import cardRoute from './routes/card.js';
 
 dotenv.config();
 
@@ -26,16 +26,17 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-// Google Gemini (PaLM) config
 const SERVICE_ACCOUNT_PATH = process.env.GEMINI_SERVICE_ACCOUNT_PATH;
 const PROJECT_ID = process.env.GEMINI_PROJECT_ID;
 const LOCATION = process.env.GEMINI_LOCATION || 'us-central1';
-const MODEL = process.env.GEMINI_MODEL || 'chat-bison-001';
+// Chú ý: MODEL phải trùng khớp với tên hiển thị trong "Resource ID" (ví dụ "gemini-2.0-flash-lite-001")
+// và không thêm dấu "@"—nếu model đó hiển thị là "google/gemini-2.0-flash-lite-001" thì MODEL = "gemini-2.0-flash-lite-001"
+const MODEL = process.env.GEMINI_MODEL;
+
 const auth = new GoogleAuth({
     keyFilename: SERVICE_ACCOUNT_PATH,
     scopes: ['https://www.googleapis.com/auth/cloud-platform'],
 });
-
 // Test endpoint
 app.get('/', (req, res) => {
     res.send('API is working');
@@ -49,26 +50,48 @@ app.post('/api/chat', async (req, res) => {
     }
 
     try {
+        // Lấy access token
         const client = await auth.getClient();
         const accessToken = await client.getAccessToken();
 
+        // Tạo endpoint cho GenerateContent
         const endpoint =
             `https://${LOCATION}-aiplatform.googleapis.com/v1/projects/` +
             `${PROJECT_ID}/locations/${LOCATION}/publishers/google/models/` +
-            `${MODEL}:predict`;
+            `${MODEL}:generateContent`;
 
-        const response = await axios.post(
-            endpoint,
-            { instances: [{ content: userText }] },
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken.token || accessToken}`,
-                    'Content-Type': 'application/json',
+        console.log('Calling Gemini GenerateContent API:', endpoint);
+
+        // Payload đúng định dạng
+        const requestBody = {
+            contents: [
+                {
+                    role: 'user',
+                    parts: [{ text: userText }],
                 },
+            ],
+            generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 1024,
+                topP: 0.8,
+                topK: 40,
             },
-        );
+        };
 
-        const reply = response.data.predictions?.[0]?.candidates?.[0]?.content || 'Xin lỗi, mình không hiểu.';
+        const response = await axios.post(endpoint, requestBody, {
+            headers: {
+                Authorization: `Bearer ${accessToken.token || accessToken}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        // Đọc kết quả trả về trong response.data.generations[0].text
+        const candidates = response.data.candidates;
+        const reply =
+            Array.isArray(candidates) && candidates.length > 0
+                ? candidates[0].content.parts[0].text
+                : 'Xin lỗi, mình không hiểu.';
+
         res.json({ reply });
     } catch (err) {
         console.error('Gemini API error:', err.response?.data || err.message);
@@ -98,7 +121,7 @@ app.use('/sendEmail', sendEmailRoute);
 app.use('/login', loginRoute);
 app.use('/ticketDetail', ticketDetailsRoute);
 app.use('/codeSeat', codeSeatRoute);
-app.use('/cancel', cancelRoute);
+app.use('/card', cardRoute);
 
 app.listen(port, () => {
     connect();

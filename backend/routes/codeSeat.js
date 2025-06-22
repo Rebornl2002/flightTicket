@@ -7,6 +7,7 @@ import {
     getCodeSeatById,
     updateCodeSeatPayingFail,
     updateCodeSeatRoundTrip,
+    updateCodeSeatRoundTripFail,
 } from './../controllers/codeSeatController.js';
 
 const router = express.Router();
@@ -22,6 +23,8 @@ router.put('/:id', updateCodeSeat);
 router.put('/roundTrip/:id', updateCodeSeatRoundTrip);
 
 router.put('/fail/:id', updateCodeSeatPayingFail);
+
+router.put('/fail/roundTrip/:id', updateCodeSeatRoundTripFail);
 
 router.get('/:id', getCodeSeatById);
 

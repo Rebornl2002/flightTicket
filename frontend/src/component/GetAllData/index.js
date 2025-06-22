@@ -16,6 +16,8 @@ const cx = classNames.bind(styles);
 function GetAllData({ data, className, type }) {
     const [user, setUser] = useState([]);
 
+    console.log(user);
+
     useEffect(() => {
         if (type === 'get') {
             const timePaying = setTimeout(() => {
@@ -259,7 +261,7 @@ function GetAllData({ data, className, type }) {
                                 </div>
                             </div>
 
-                            <TableInfo UserName={user.UserName} CodeSeat={user.CodeSeat} TypeTicket={data.TypeTicket} />
+                            <TableInfo UserName={user.UserName} CodeSeat={user.CodeSeat} TypeTicket={user.TypeTicket} />
                         </div>
 
                         {data.TypeFlight === 'Roundtrip' && (

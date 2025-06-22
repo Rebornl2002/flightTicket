@@ -1,6 +1,7 @@
 import { query } from 'express';
 import CodeSeat from '../models/codeSeat.js';
 import moment from 'moment';
+import mongoose from 'mongoose';
 
 //Create CodeSeat
 
@@ -68,6 +69,7 @@ export const updateCodeSeat = async (req, res) => {
             }
 
             const ketQua = layPhanTuTrungLap(codeSeat, codeSeatPresent);
+
             res.status(500).json({
                 success: false,
                 message: 'Failed to update. Try again ',
@@ -196,6 +198,68 @@ export const updateCodeSeatPayingFail = async (req, res) => {
             success: false,
             message: 'Failed to update. Try again ',
         });
+    }
+};
+
+export const updateCodeSeatRoundTripFail = async (req, res) => {
+    const outboundId = req.params.id;
+    const inboundId = req.query.idReturn;
+    const typeOutbound = req.query.type;
+    const typeInbound = req.query.typeReturn;
+    const seatsOutbound = req.query.seat.split(',');
+    const seatsInbound = req.query.seatReturn.split(',');
+
+    console.log(req.query);
+
+    const session = await mongoose.startSession();
+    try {
+        let result;
+        await session.withTransaction(async () => {
+            // 1) Xóa ghế chuyến đi
+            const outRes = await CodeSeat.updateOne(
+                { FlightNumber: outboundId },
+                { $pull: { [typeOutbound]: { $in: seatsOutbound } } },
+                { session },
+            );
+            if (outRes.modifiedCount !== seatsOutbound.length) {
+                // Nếu không xóa đủ số ghế mong đợi, ném lỗi để rollback
+                throw new Error(
+                    `Outbound removal mismatch: expected ${seatsOutbound.length}, got ${outRes.modifiedCount}`,
+                );
+            }
+
+            // 2) Xóa ghế chuyến về
+            const inRes = await CodeSeat.updateOne(
+                { FlightNumber: inboundId },
+                { $pull: { [typeInbound]: { $in: seatsInbound } } },
+                { session },
+            );
+            if (inRes.modifiedCount !== seatsInbound.length) {
+                throw new Error(
+                    `Inbound removal mismatch: expected ${seatsInbound.length}, got ${inRes.modifiedCount}`,
+                );
+            }
+
+            // Nếu tới đây nghĩa là cả 2 đều thành công
+            result = { outbound: outRes, inbound: inRes };
+        });
+
+        // Transaction thành công, commit tự động
+        res.status(200).json({
+            success: true,
+            message: 'Successfully removed seats for both legs',
+            data: result,
+        });
+    } catch (error) {
+        // Nếu có bất kỳ throw nào ở trên, transaction sẽ abort
+        console.error('Round-trip seat removal failed, rolled back:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to remove seats for round-trip; no changes were applied.',
+            error: error.message,
+        });
+    } finally {
+        session.endSession();
     }
 };
 

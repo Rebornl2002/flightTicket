@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { BOOKED_URL } from '../../utils/config';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBan, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faBan, faEnvelope, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import GetAllData from '../GetAllData';
 import Header from '../DefaultPage/Header';
 
@@ -19,6 +19,7 @@ function MyFlight() {
     const [data, setData] = useState('');
     const [CodeTicket, setCodeTicket] = useState('');
     const [showInfo, setShowInfo] = useState(false);
+    const [contact, setContact] = useState('');
 
     async function fetchAPI() {
         try {
@@ -62,6 +63,10 @@ function MyFlight() {
     }, [CodeTicket]);
 
     const handleSearch = () => {
+        if (!CodeTicket || !contact) {
+            toast.warn('Vui lòng nhập đầy đủ mã CODE và Email/SDT');
+            return;
+        }
         fetchAPI();
     };
 
@@ -81,7 +86,6 @@ function MyFlight() {
                     .delete(`http://localhost:4000/info/codeSeat/${CodeTicket}`)
                     .then(() => {
                         toast.success('Hủy vé thành công');
-                        handleSearch();
                     })
                     .catch((error) => {
                         console.log(error);
@@ -101,26 +105,64 @@ function MyFlight() {
         <div className={cx('wrapper')}>
             <Header />
 
-            <span className={cx('search')}>
-                {/* Nhập mã CODE của bạn:&nbsp;&nbsp;&nbsp; */}
-                Nhập mã CODE của bạn:&nbsp;&nbsp;&nbsp;
-                <input
-                    type="text"
-                    id="code"
-                    onChange={(e) => {
-                        setCodeTicket(e.target.value);
-                        setShowInfo(false);
-                    }}
-                ></input>
-                <button onClick={handleSearch}>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </button>
-                {showInfo && (
-                    <button onClick={handleDelete}>
-                        <FontAwesomeIcon icon={faBan} />
-                    </button>
-                )}
-            </span>
+            <div className="container py-3">
+                <div className="row g-2 align-items-center">
+                    {/* Mã CODE */}
+                    <div className="col-md">
+                        <div className="input-group">
+                            <span className="input-group-text">
+                                <FontAwesomeIcon icon={faQrcode} />
+                            </span>
+                            <input
+                                type="text"
+                                className="form-control shadow-none"
+                                placeholder="Mã đặt chỗ / Mã đơn hàng"
+                                value={CodeTicket}
+                                onChange={(e) => {
+                                    setCodeTicket(e.target.value);
+                                    setShowInfo(false);
+                                }}
+                                onKeyDown={handleKeyPress}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Email / Số điện thoại */}
+                    <div className="col-md">
+                        <div className="input-group">
+                            <span className="input-group-text">
+                                <FontAwesomeIcon icon={faEnvelope} />
+                            </span>
+                            <input
+                                type="text"
+                                className="form-control shadow-none"
+                                placeholder="Email / Số điện thoại"
+                                value={contact}
+                                onChange={(e) => {
+                                    setContact(e.target.value);
+                                    setShowInfo(false);
+                                }}
+                                onKeyDown={handleKeyPress}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Nút Xem */}
+                    <div className="col-auto">
+                        <button className="btn btn-primary" onClick={handleSearch}>
+                            Xem
+                        </button>
+                    </div>
+
+                    {showInfo && (
+                        <div className="col-auto">
+                            <button className="btn btn-outline-danger" onClick={handleDelete}>
+                                <FontAwesomeIcon icon={faBan} /> Hủy
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
 
             <div id="wrapper-confirm" className={cx('wrapper-confirm')}>
                 <div className={cx('overlay')}></div>

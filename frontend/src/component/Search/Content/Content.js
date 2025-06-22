@@ -33,11 +33,11 @@ function Content(props) {
             .catch((error) => console.log(error));
     }, [setData]);
 
-    // useEffect(() => {
-    //     data.sort((a, b) => a.EconomyClass.PriceAdult - b.EconomyClass.PriceAdult);
-    //     const newData = data.slice(0, 4);
-    //     setNewData(newData);
-    // }, [data]);
+    useEffect(() => {
+        data.sort((a, b) => a.EconomyClass.PriceAdult - b.EconomyClass.PriceAdult);
+        const newData = data.slice(0, 4);
+        setNewData(newData);
+    }, [data]);
 
     const handleDate = (date) => {
         const year = date.split('-');
@@ -409,7 +409,7 @@ function Content(props) {
                         </div>
                     </div>
                 </div>
-                <div className={cx('feedback')}>
+                {/* <div className={cx('feedback')}>
                     <h4>KHÁCH HÀNG NÓI VỀ FLYNOW</h4>
                     <div className={cx('feedback-item')}>
                         <div className={cx('feedback-user')}>
@@ -470,7 +470,7 @@ function Content(props) {
                             <span className={cx('feedback-gmail')}>congai09***@gmail.com</span>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

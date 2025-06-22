@@ -16,6 +16,7 @@ import {
     getTicketIncompletedMonthNowOfCompany,
     getAllTicketOfCompany,
     searchConnectingFlights,
+    getCheapestFutureTickets,
 } from './../controllers/ticketController.js';
 
 const router = express.Router();
@@ -25,6 +26,8 @@ router.post('/', createTicket);
 
 //get all ticket
 router.get('/', getAllTicket);
+
+router.get('/cheapest', getCheapestFutureTickets);
 
 //get all ticket by search
 router.get('/search/getTicketBySearch', getTicketBySearch);

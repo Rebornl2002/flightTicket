@@ -138,6 +138,59 @@ export const getAllTicket = async (req, res) => {
     }
 };
 
+export const getCheapestFutureTickets = async (req, res) => {
+    try {
+        const now = new Date();
+
+        const cheapest = await Ticket.aggregate([
+            {
+                $match: {
+                    DateGo: { $gt: now },
+                },
+            },
+            {
+                $addFields: {
+                    minPrice: {
+                        $min: [
+                            '$FirstClass.PriceAdult',
+                            '$BusinessClass.PriceAdult',
+                            '$PremiumClass.PriceAdult',
+                            '$EconomyClass.PriceAdult',
+                        ],
+                    },
+                },
+            },
+            { $sort: { minPrice: 1 } },
+            { $limit: 4 },
+            {
+                $project: {
+                    minPrice: 0,
+                },
+            },
+        ]);
+
+        if (cheapest.length > 0) {
+            res.status(200).json({
+                success: true,
+                count: cheapest.length,
+                message: '4 vé rẻ nhất (ngày đi sau hiện tại)',
+                data: cheapest,
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'Không tìm thấy vé nào phù hợp',
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching cheapest future tickets:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error',
+        });
+    }
+};
+
 //get ticket by search
 export const getTicketBySearch = async (req, res) => {
     const AirportFrom = new RegExp(req.query.AirportFrom, 'i');
@@ -450,6 +503,7 @@ export const searchConnectingFlights = async (req, res) => {
 
     const dateNext = new Date(dateDay);
     dateNext.setUTCDate(dateNext.getUTCDate() + 1);
+    console.log(req.query);
 
     try {
         const results = await Ticket.aggregate([
